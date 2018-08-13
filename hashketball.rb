@@ -1,7 +1,7 @@
 require "pry"
 
 def game_hash
-  game_hash = {
+        game_hash = {
     :home => {
       :team_name => "Brooklyn Nets",
       :colors => ["Black", "White"],
@@ -36,7 +36,7 @@ def game_hash
           blocks: 1,
           slam_dunks: 15
         },
-        "Mason Prumlee" => {
+        "Mason Plumlee" => {
           number: 1,
           shoe: 19,
           points: 26,
@@ -99,9 +99,9 @@ def game_hash
           points: 33,
           rebounds: 3,
           assists: 2,
-          steals: 4,
-          blocks: 5,
-          slam_dunks: 5
+          steals: 1,
+          blocks: 1,
+          slam_dunks: 0
         },
         "Brendan Haywood" => {
           number: 33,
@@ -120,7 +120,89 @@ end
 
 
 def num_points_scored(player_name)
-  game_hash.each do |home_or_away, team_info|
-  binding.pry
+  game_hash.each do |location, team_data|
+    team_data.each do |attribute, data|
+      if attribute == :players
+        data.each do |person_name, person_info|
+          person_info.each do |stat_title, number|
+            if person_name == player_name && stat_title == :points
+              return number
+            end
+          end
+        end
+      end
+    end
+  end
 end
+
+
+def shoe_size(player_name)
+  game_hash.each do |location, team_data|
+    team_data.each do |attribute, data|
+      if attribute == :players
+        data.each do |person_name, person_info|
+          person_info.each do |stat_title, number|
+            if person_name == player_name && stat_title == :shoe
+              return number
+            end
+          end
+        end
+      end
+    end
+  end
+end
+
+def team_colors(team_name)
+  if team_name == "Brooklyn Nets"
+    game_hash[:home][:colors]
+  elsif team_name == "Charlotte Hornets"
+    game_hash[:away][:colors]
+  end
+end
+
+def team_names
+  team_name_array = []
+  team_name_array << game_hash[:home][:team_name]
+  team_name_array << game_hash[:away][:team_name]
+  team_name_array
+end
+
+def player_numbers(team_name)
+  player_numbers = []
+  game_hash.each do |location, team_data|
+    if team_data[:team_name] == team_name
+      team_data[:players].each do |person_name, person_info|
+        player_numbers << person_info[:number]
+      end
+    end
+  end
+  player_numbers
+end
+
+def player_stats(player_name)
+  game_hash.each do |location, team_data|
+    team_data.each do |attribute, data|
+      if attribute == :players
+        data.each do |person_name, person_info|
+          if person_name == player_name
+            return person_info
+          end
+        end
+      end
+    end
+  end
+end
+
+def big_shoe_rebounds
+  player_with_biggest_shoe = 0
+  rebounds = 0
+  game_hash.each do |location, team_data|
+    team_data[:players].each do |person_name, person_info|
+      if person_info[:shoe] > player_with_biggest_shoe
+        player_with_biggest_shoe = person_info[:shoe]
+        rebounds = person_info[:rebounds]
+      end
+    end
+  end
+  rebounds
 end
