@@ -134,10 +134,12 @@ end
 
 def num_points_scored(name)
   find_player = players.find {|player| player.fetch(:player_name) == name }
-  find_player.fetch(:points)
+  player_points = find_player.fetch(:points) 
+  point = player_points.gsub /"/, '|'
 end 
 
 puts num_points_scored("Brendan Haywood")
+
 
 # def game_hash
   
