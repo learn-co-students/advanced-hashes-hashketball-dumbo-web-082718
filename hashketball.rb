@@ -3,6 +3,9 @@
  require "pry"
  
  def game_hash
+   
+# hash = Hash.new()
+
    {
  :home => {
    :team_name => "Brooklyn Nets",
@@ -121,26 +124,38 @@
   }
 }
 end
-#access both :home->:players and :away->:players 
-#both players are arrays...find method that iterates through that array and returns :points 
-#must tell program to find it with a name(string) input
 
-def players
-  home_players = game_hash[:home][:players]
-  away_players = game_hash[:away][:players]
-  total_players = home_players + away_players
-  total_players
+# Function to call all players
+def players_dot_all
+    game_hash[:home][:players].flatten.(game_hash[:away][:players])
+  # all_players = home_players + away_players
+  # total_players
 end
 
-def num_points_scored(name)
-  find_player = players.find {|player| player.fetch(:player_name) == name }
-  player_points = find_player.fetch(:points) 
-  point = player_points.gsub /"/, '|'
+# Fuction to call 1 player
+def call_player(name)
+    player = players.fetch(name)
 end 
+
+# fetch the points of a player
+def num_points_scored(name)
+	  player = call_player(name)
+	  player.fetch(:points)
+	end
 
 puts num_points_scored("Brendan Haywood")
 
+def shoe_size(name)
+  players = players_dol_all do |player, stats| 
+    stats.fetch(:name)
+    end
 
+def player_biggest_shoe_size
+	  players.max_by do |player, stats| 
+	    stats.fetch(:shoe)
+	  end [1]
+end
+  player_biggest_shoe_size
 # def game_hash
   
 #   # hash = Hash.new()
@@ -272,18 +287,8 @@ puts num_points_scored("Brendan Haywood")
 # # * Build a method, `num_points_scored` that takes in an argument of a player's name and returns the number of points scored for that player.
 # #   * Think about where in the hash you will find a player's `:points`. How can you iterate down into that level? Think about the return value of your method. Remember that `.each` returns the original collection that you are iterating over. How can you return the number of points for a particular player?
 
-# def num_points_scored(name)
-# home_players = game_hash[:home][:players]
-#   away_players = game_hash[:away][:players]
-#   total_players = home_players + away_players
-#   total_players
 
-#   find_player = players.find {|player| player.fetch(:player_name) == name }
-#   find_player.fetch(:points)
-# end 
-# num_points_scored("Brendan Haywood")
- 
-# # end 
+
 
 
 
