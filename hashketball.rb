@@ -125,59 +125,115 @@
 }
 end
 
-def players
-	  game_hash[:home][:players]concat(game_hash[:away][:players])
+# def all_teams# using MAP
+
+#   game_hash.map do |team, names| names[:team_name]
+#   # names.each do |name, info| name == [:team_name].concat([:players]) 
+#    end
+#   # end 
+# end 
+# # puts all_teams
+# #______________BOTH TEAMS ___________________#
+
+
+
+#CALLING EACH TEAM BY ACCESSING HASH
+def home
+	  game_hash[:home][:team_name]
 	end
-players
-
-def all_teams 
-  game_hash[:home][:team_name].concat(game_hash[:away][:team_name]) #.split("[:team_name]")
-end 
-puts all_teams 
-
-def home_team
-h_team = game_hash[:home][:team_name]
-end 
-puts home_team
+  # puts home
+# #_________________________________#
+# def away
+# 	  game_hash[:away][:team_name]
+# 	end
+# #  puts away
+# #_________________________________#
 
 
-def call_all_players
-  all_players = game_hash.values.collect do |players_info|
-    players_info[:players]
-  end
-  all_players.flatten
-  return all_players
-end
-# call_all_players  
-
- def player_details(player_name, info)
- all_players.reduce(nil) do| details, player_info|
- if(player_info[:player_name] == player_name)
-  details = player_info[info]
- end 
-   details
-  end 
-end 
-
-player_details("Jeff Adrien", "number: 2,
-          shoe: 14,
-          points: 24,
-          rebounds: 12,
-          assists: 12,
-          steals: 4,
-          blocks: 5,
-          slam_dunks: 5")
+		def players
+	  team_players_array = game_hash.values.map do |players_info|
+	    players_info[:players]
+	  end
+	  team_players_array.flatten
+	end
+  puts "________________________________________"
+ puts "PLAYERS" 
+puts players
 
 
-def player_details(player_name)
-	  player_details(player_name, :points)
+	def playerZ_stats(player_name, stats)
+    players.reduce(0) do |all_stats, player_details|
+	    if(player_details[:player_name] == player_name)
+	      all_stats = player_details[stats]
+	    end
+	    all_stats
+	  end
+	end
+  puts "________________________________________"
+   puts "STATS " 
+  
+	def num_points_scored(player_name)
+	  playerZ_stats(player_name, :points)
 	end
 
-def shoe_size(player_name)
-	  player_details(player_name, :shoe)
-end
+ puts "______________SCORE__________________________"
+ puts num_points_scored("Jeff Adrien")
 
-lear
 
+	def shoe_size(player_name)
+	  playerZ_stats(player_name, :shoe)
+	end
+   puts "______________SHOE__________________________"
+
+  puts shoe_size("Jeff Adrien")
+
+	def call_team(team_name)
+	  game_hash.values.find do |players_info|
+	    players_info[:team_name] == team_name
+	  end
+	end
+
+  puts "__________CALL TEAM __________________________"
+  puts call_team("Brooklyn Nets")
+
+	def team_colors(team_name)
+	  team = call_team(team_name)
+	  team[:colors]
+	end
+ 
+  puts "_____________COLORS_________________________"
+  puts team_colors("Brooklyn Nets")
+
+
+	def team_names #*** .  ***
+	  game_hash.map do |team, players_info|
+	    players_info[:team_name] #should be all info
+	  end
+    # return team_names 
+	end
+ puts "_____________TEAM NAMES______________________"
+ puts  team_names
+ 
+	# def player_numbers(team_name)
+	#   team = call_team(team_name)
+	#   team[:players].map do |players_details|
+  #   	 players_details[:team_name]
+  #      end
+ 	# end
+   def player_numbers(player_name) #Understand & retry 
+       playerZ_stats(player_name, :number)
+       end
+     puts "__________PLAYERS NUMBERS______________"
+  # puts player_numbers("Reggie Evans")
+puts player_numbers("Jeff Adrien")
+
+
+	def player_stats(player_name) #***Not working***
+	  players.find do |player_details|
+	    player_details[:player_name] == player_name
+	  end
+	end
+  puts "__________PLAYERS STATS______________"
+  puts player_stats("Jeff Adrien")
 
 
