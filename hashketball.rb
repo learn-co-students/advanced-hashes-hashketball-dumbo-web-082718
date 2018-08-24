@@ -125,115 +125,112 @@
 }
 end
 
-# def all_teams# using MAP
-
-#   game_hash.map do |team, names| names[:team_name]
-#   # names.each do |name, info| name == [:team_name].concat([:players]) 
-#    end
-#   # end 
-# end 
-# # puts all_teams
-# #______________BOTH TEAMS ___________________#
 
 
-
-#CALLING EACH TEAM BY ACCESSING HASH
-def home
-	  game_hash[:home][:team_name]
-	end
-  # puts home
-# #_________________________________#
-# def away
-# 	  game_hash[:away][:team_name]
-# 	end
-# #  puts away
-# #_________________________________#
+puts "___CALL BOTH TMZ PLAYERS & STATS___________"
+#___HASH_VALUE_=_TEAMS & PLAYERS & STATS____
+def teams_and_players
+  teams = game_hash.values
+end
+puts teams_and_players
 
 
-		def players
-	  team_players_array = game_hash.values.map do |players_info|
-	    players_info[:players]
-	  end
-	  team_players_array.flatten
-	end
-  puts "________________________________________"
- puts "PLAYERS" 
-puts players
+# # def get_teams
+# #  team = []
+# #     game_hash.map do |team| team.fetch[:team_name]
+# #     end 
+# #   # team.push(team_names.flatten) 
+# # end
+# # puts get_teams
+puts "_____________TEAMS NAMES _______________'\n'"
+
+def teams_names
+  teams_and_players.map{|team| team.fetch(:team_name)}
+end
+ puts  teams_names
 
 
-	def playerZ_stats(player_name, stats)
-    players.reduce(0) do |all_stats, player_details|
-	    if(player_details[:player_name] == player_name)
-	      all_stats = player_details[stats]
-	    end
-	    all_stats
-	  end
-	end
-  puts "________________________________________"
-   puts "STATS " 
-  
-	def num_points_scored(player_name)
-	  playerZ_stats(player_name, :points)
-	end
 
- puts "______________SCORE__________________________"
- puts num_points_scored("Jeff Adrien")
-
-
-	def shoe_size(player_name)
-	  playerZ_stats(player_name, :shoe)
-	end
-   puts "______________SHOE__________________________"
-
-  puts shoe_size("Jeff Adrien")
-
-	def call_team(team_name)
+puts "______CALL TEAM BY NAME  ________________"
+#CALL EACH TEAM (by name)
+def call_team(team_name)
 	  game_hash.values.find do |players_info|
 	    players_info[:team_name] == team_name
 	  end
-	end
+end
 
-  puts "__________CALL TEAM __________________________"
-  puts call_team("Brooklyn Nets")
-
-	def team_colors(team_name)
-	  team = call_team(team_name)
-	  team[:colors]
-	end
- 
-  puts "_____________COLORS_________________________"
-  puts team_colors("Brooklyn Nets")
+puts call_team("Brooklyn Nets")
 
 
-	def team_names #*** .  ***
-	  game_hash.map do |team, players_info|
-	    players_info[:team_name] #should be all info
-	  end
-    # return team_names 
-	end
- puts "_____________TEAM NAMES______________________"
- puts  team_names
- 
-	# def player_numbers(team_name)
-	#   team = call_team(team_name)
-	#   team[:players].map do |players_details|
-  #   	 players_details[:team_name]
-  #      end
- 	# end
-   def player_numbers(player_name) #Understand & retry 
-       playerZ_stats(player_name, :number)
-       end
-     puts "__________PLAYERS NUMBERS______________"
-  # puts player_numbers("Reggie Evans")
-puts player_numbers("Jeff Adrien")
+puts "__________PLAYERS W STATS________________'\n' "
+#this method return All Players with their stats 
+def all_players_with_stats
+    players = game_hash.values.map do |players| all_players = players[:players]
+   end
+   players.flatten 
+end 
+puts all_players_with_stats
 
 
-	def player_stats(player_name) #***Not working***
-	  players.find do |player_details|
-	    player_details[:player_name] == player_name
-	  end
-	end
-  puts "__________PLAYERS STATS______________"
-  puts player_stats("Jeff Adrien")
+puts "__________TEAM COLOR___________________'\n'"
+#Get team color by accessing specific team(call_team then team name store in a variable to then use and fetch)
+def team_color(team_name)
+get_color = call_team(team_name) {|team_name|team_name.fetch(:team_name) == team_name}
+ get_color.fetch(:colors)
+
+ end 
+ puts team_color("Brooklyn Nets")
+
+#WITHOUT  Iteratting Just accessing 
+# def players
+#   home_players = game_hash[:home][:players]
+#   away_players = game_hash[:away][:players]
+#   total_players = home_players + away_players
+#   total_players
+# end
+#____________________________________________
+ #ITTERATING WITH FIND (can also use detect)
+def num_points_scored(name)
+  get_player = all_players_with_stats.find {|player| player.fetch(:player_name) == name }
+   get_player.fetch(:points)
+  # puts "#{name} points: #{points}"
+end 
+puts "__________FIND PLAYER SCORE ______________'\n'"
+puts num_points_scored("Brendan Haywood")
+
+puts "__________SHOE SIZE  ______________'\n'"
+def shoe_size(player_name)
+    get_shoe = all_players_with_stats.find do|player|player.fetch(:player_name) == player_name
+     end 
+     get_shoe.fetch(:shoe)
+    # puts "#{player_name} shoe size is: #{shoe}"
+    # return get_shoe.fetch(:shoe)
+end 
+puts shoe_size("DeSagna Diop")
+
+# # def all_teams# using MAP
+
+# #   game_hash.map do |team, names| names[:team_name]
+# #   # names.each do |name, info| name == [:team_name].concat([:players]) 
+# #    end
+# #   # end 
+# # end 
+# # # puts all_teams
+# # #______________BOTH TEAMS ___________________#
+
+
+
+# #CALLING EACH TEAM BY ACCESSING HASH
+# def home
+# 	  game_hash[:home][:team_name]
+# 	end
+#   # puts home
+# # #_________________________________#
+# # def away
+# # 	  game_hash[:away][:team_name]
+# # 	end
+# # #  puts away
+# # #_________________________________#
+
 
 
