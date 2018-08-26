@@ -1,5 +1,4 @@
 # Write your code here!
-require 'pry'
 
 def game_hash
   hash = {
@@ -114,69 +113,81 @@ end
 # location = home or away
 def num_points_scored(player_name)
   game_hash.each do |location, data|
-    game_hash[location][:players].each do |player, stats|
-      if player == name
-        return stats[:points]
+    data.each do |attribute, data|
+      if attribute == :players
+        data.each do |player, stats|
+          if player ==  player_name
+            return stats[:points]
       end 
     end
   end
 end
 
-
 def shoe_size(player_name)
+  shoe_size = nil
   game_hash.each do |location, data|
-   game_hash[location][:players].each do |player, stats|
-      if player == player_name
-        return stats[:shoe]
+   game_hash[location][:players].each do |player|
+      if player[:player_name] == player_name
+        shoe_size = player[:shoe]
       end
     end
   end
+  shoe_size
 end
 
 def team_colors(team)
   game_hash.each do |location, data|
-    if game_hash[location][:team_name] == team
-      return game_hash[location][:colors]
+    if data[:team_name] == team
+      return data[:colors]
     end
   end
 end 
 
 def team_names
-  array = []
-    names << game_hash[:home][:team_name]
-    names << game_hash[:away][:team_name]
-  array
+  game_hash.collect do |location, data|
+    data[:team_name]
+  end
 end
 
 def player_numbers(team)
-  array = []
-  game_hash.each do |location, data|
-    if game_hash[location][:team_name] == team_name
-      game_hash[location][:players].each do |player,stats|
-        array << stats[:number]
+  number_ary = ["empty"]
+  game_hash.flat_map do |location, data|
+    if data[:team_name] == team
+      data.collect do |attribute, data|
+        if attribute == :players
+          number_ary = data.collect {|player, plyr_stats| plyr_stats[:number]}
+        end
       end
     end
   end
-  numbers 
+  number_ary
 end
 
 def player_stats(name)
   game_hash.each do |location, data|
-    game_hash[location][:players].each do |player, stats|
-      if player == name
-        return stats
+    data.each do |attribute, data|
+      if attribute == :players
+        data.each do |player, plyr_stats|
+          if player == name
+            return plyr_stats
+          end
+        end
       end
     end
   end
+  nil
 end
 
-# first find player with largest foot shoe_size
-# then return that player's no. of rebounds
 def big_shoe_rebounds
-  
+  biggest_player = ["Nobody",{shoe: 0}] #stand-in for initial #inject memo
+  game_hash.each do |location, data|
+    data.each do |attribute, data|
+      if attribute == :players
+        biggest_player = data.inject(biggest_player) do |temp_biggest, plyr_stats|
+          plyr_stats[1][:shoe] > temp_biggest[1][:shoe] ? plyr_stats : temp_biggest
+        end
+      end
+    end
+  end
+  biggest_player[1][:rebounds]
 end
-# wat 
-# I don't know if my code works but my phone call is tomorrow so I am submitting what I have! 
-# I can't figure out how to test it properly with pry.... 
-
-binding.pry
